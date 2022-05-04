@@ -5,11 +5,12 @@ import argparse
 
 def main():
     
+    
 
     # create gym environment
     env = gym.make('CartPole-v1') # 'CartPole-v1'
     envs = []
-    for i in range(100000):
+    for i in range(1000):
         envs.append(gym.make('CartPole-v1'))
         envs[i].reset()
     env_2 = gym.make('CartPole-v1')
