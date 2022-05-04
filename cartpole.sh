@@ -2,9 +2,9 @@
 
 python train.py \
 -env 'CartPole-v1' \
--reps 10 \
--eval_reps 10 \
--b 300 \
+-reps 2 \
+-eval_reps 2 \
+-b 200 \
 -r "Discrete" \
 -m "IndividualSigma" \
 -pat 3 \

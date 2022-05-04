@@ -11,6 +11,10 @@ from evolutionary_algorithms.classes.Evaluation import RewardMaximization
 def main():
     parser = argparse.ArgumentParser()
     # evolutionary algorithms parameter
+    parser.add_argument('-exp_name', action='store',
+                        dest='exp_name', type=str,
+                        default='test_experiment',
+                        help="Defines the name of the experiment.")
     parser.add_argument('-b', action='store',
                         dest='budget', type=int,
                         default=10000,
@@ -71,7 +75,7 @@ def main():
         os.environ["SDL_VIDEODRIVER"] = "dummy"
 
     # create gym environment
-    env = gym.make(args.env) # 'CartPole-v1'
+    env = gym.make(args.env)
     if env is None:
         exit("Please select an environment")
     print(f"environment: {env.unwrapped.spec.id}")
@@ -108,6 +112,10 @@ def main():
     selection=globals()[args.selection]()
     evaluation = RewardMaximization(env, reps=10)
     
+    # initialize directory for results, if non existant
+    if not os.path.exists('results'):
+        os.makedirs('results')
+
     best_results = []
     for _ in range(args.repetitions):
         ea = EA(minimize=minimize, budget=budget, patience=patience, 
@@ -121,9 +129,14 @@ def main():
 
     eval_results = []
     for res in best_results:
-        eval_results.append(eval(res[0], env, args.repetitions))
-
+        eval_results.append([eval(res[0], env, args.repetitions)])
     print("Evaluation results",eval_results)
+    
+    # Save best individual to file
+    best_ind_idx = np.argmax(eval_results)
+    best_ind = best_results[best_ind_idx][0]
+    np.save('results/'+args.exp_name+'.npy', best_ind)
+
 
 def eval(individual, env, reps, render=False):
     n_observations = np.sum([dim for dim in env.observation_space.shape]) 
