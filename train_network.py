@@ -7,6 +7,7 @@ from evolutionary_algorithms.classes.Recombination import *
 from evolutionary_algorithms.classes.Mutation import *
 from evolutionary_algorithms.classes.Selection import *
 from Evaluation import RewardMaximization
+from Network import *
 
 def main():
     parser = argparse.ArgumentParser()
@@ -88,6 +89,8 @@ def main():
         exit("Please select an environment")
     print(f"environment: {env.unwrapped.spec.id}")
 
+    # create network
+
     # define the individual size as the product of number of observations and
     # the number of possible actions
     n_observations = np.sum([dim for dim in env.observation_space.shape]) 
@@ -136,9 +139,7 @@ def main():
     # loop through final evalutation process for our best results
     eval_results = []
     for res in best_results:
-        eval_results.append([eval(res[0], env, 
-                            args.eval_reps, 
-                            render=args.render_eval)])
+        eval_results.append([eval(res[0], env, args.eval_reps, render=args.render_eval)])
     print("Evaluation results",eval_results)
     
     # initialize directory to save results
