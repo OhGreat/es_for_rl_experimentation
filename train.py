@@ -50,19 +50,26 @@ def main():
                         dest='patience', type=int,
                         default=None,
                         help="Defines the wait time before resetting sigmas.")          
-    parser.add_argument('-reps', action='store',
-                        dest='repetitions', type=int,
+    parser.add_argument('-exp_reps', action='store',
+                        dest='exp_reps', type=int,
+                        default=5,
+                        help="Defines the number of experiments to average results.")
+    parser.add_argument('-train_reps', action='store',
+                        dest='train_reps', type=int,
                         default=10,
-                        help="Defines the number of repetitions to average results.")
+                        help="Defines the number of evaluation repetitions to use during training.")
     parser.add_argument('-eval_reps', action='store',
                         dest='eval_reps', type=int,
                         default=5,
-                        help="Defines the number of repetitions to average results.")
-    # gym parameters
+                        help="Defines the number of evaluation repetitions to run after \
+                                'training' our candidate individuals.")
     parser.add_argument('-env', action='store', type=str,
                         dest='env', default='CartPole-v1')
-    # extra utility parameters
-    parser.add_argument('-virtual_display', action='store_true')
+    parser.add_argument('-render_eval', action='store_true',
+                        help='use this flag to render the evaluation process \
+                                after training our individuals')
+    parser.add_argument('-virtual_display', action='store_true',
+                        help='needed for headless servers when using render')
     parser.add_argument('-v', action='store',
                         dest='verbose', type=int,
                         default=1,
@@ -71,6 +78,7 @@ def main():
     if args.verbose > 0:
         print(args)
 
+    # used to train on headless servers
     if args.virtual_display:
         os.environ["SDL_VIDEODRIVER"] = "dummy"
 
@@ -108,31 +116,34 @@ def main():
         mutation = globals()[args.mutation](args.one_fifth_mul)
     else:
         mutation = globals()[args.mutation]()
-
     selection=globals()[args.selection]()
     evaluation = RewardMaximization(env, reps=10)
-    
-    # initialize directory for results, if non existant
-    if not os.path.exists('results'):
-        os.makedirs('results')
 
+    # loop through experiment 
     best_results = []
-    for _ in range(args.repetitions):
+    for _ in range(args.exp_reps):
+        # define new ea istance
         ea = EA(minimize=minimize, budget=budget, patience=patience, 
         parents_size=parents_size, offspring_size=offspring_size,
         individual_size=individual_size, recombination=recombination,
         mutation=mutation, selection=selection, evaluation=evaluation,
         verbose=args.verbose)
 
+        # run the ea and append results
         best_ind, best_eval = ea.run()
         best_results.append([best_ind, best_eval])
 
+    # loop through final evalutation process for our best results
     eval_results = []
     for res in best_results:
-        eval_results.append([eval(res[0], env, args.repetitions)])
+        eval_results.append([eval(res[0], env, args.eval_reps, render=args.render)])
     print("Evaluation results",eval_results)
     
-    # Save best individual to file
+    # initialize directory to save results
+    if not os.path.exists('results'):
+        os.makedirs('results')
+
+    # Save best individual in results directory
     best_ind_idx = np.argmax(eval_results)
     best_ind = best_results[best_ind_idx][0]
     np.save('results/'+args.exp_name+'.npy', best_ind)
@@ -142,21 +153,24 @@ def eval(individual, env, reps, render=False):
     n_observations = np.sum([dim for dim in env.observation_space.shape]) 
     n_actions = env.action_space.n
 
+    # loop through evaluation repetitions
     rews = []
     for _ in range(reps):
         done = False
+        tot_rew = 0
         state = env.reset()
         if render:
             env.render()
-        tot_rew = 0
-        done = False
+        
+        # loop through episode
         while not done:
-            # SAmple action
+            # Sample action
             a = np.argmax(np.dot(individual.reshape(n_actions, 
                                                     n_observations), 
                                                     state))
             # query environment
             state, rew, done, _ = env.step(a)
+
             tot_rew += rew
             if render:
                 env.render()
