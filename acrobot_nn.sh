@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python train.py \
+python train_network.py \
 -env 'Acrobot-v1' \
 -exp_reps 3 \
 -train_reps 5 \

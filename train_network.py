@@ -6,7 +6,7 @@ from evolutionary_algorithms.classes.EA import EA
 from evolutionary_algorithms.classes.Recombination import *
 from evolutionary_algorithms.classes.Mutation import *
 from evolutionary_algorithms.classes.Selection import *
-from Evaluation import RewardMaximization
+from Evaluation import *
 from Network import *
 
 def main():
@@ -89,13 +89,17 @@ def main():
         exit("Please select an environment")
     print(f"environment: {env.unwrapped.spec.id}")
 
-    # create network
-
     # define the individual size as the product of number of observations and
     # the number of possible actions
     n_observations = np.sum([dim for dim in env.observation_space.shape]) 
     n_actions = env.action_space.n
-    individual_size = n_observations * n_actions 
+
+    # we create an istance here to define the individual size
+    model = NN_regression(n_observations, 4, 4, n_actions).to("cpu")
+    
+    # define es individual size
+    individual_size = model.total_params
+
     if args.verbose > 0:
         print(f"Individual size: {individual_size}, \
             n observations: {n_observations}, \
@@ -120,7 +124,7 @@ def main():
     else:
         mutation = globals()[args.mutation]()
     selection=globals()[args.selection]()
-    evaluation = RewardMaximization(env, reps=10)
+    evaluation = RewardMaximizationNN(env, model, reps=10)
 
     # loop through experiment 
     best_results = []
@@ -139,7 +143,10 @@ def main():
     # loop through final evalutation process for our best results
     eval_results = []
     for res in best_results:
-        eval_results.append([eval(res[0], env, args.eval_reps, render=args.render_eval)])
+        curr_eval = eval(res[0], env, model,
+                        args.eval_reps, 
+                        render=args.render_eval)
+        eval_results.append([curr_eval])
     print("Evaluation results",eval_results)
     
     # initialize directory to save results
@@ -152,28 +159,30 @@ def main():
     np.save('results/'+args.exp_name+'.npy', best_ind)
 
 
-def eval(individual, env, reps, render=False):
+def eval(individual, env, model, reps, render=False):
+    """ Test evaluation function with repetitions
+    """
     n_observations = np.sum([dim for dim in env.observation_space.shape]) 
     n_actions = env.action_space.n
 
+    model.update_weights(individual)
     # loop through evaluation repetitions
     rews = []
     for _ in range(reps):
         done = False
         tot_rew = 0
-        state = env.reset()
+        state = torch.tensor(env.reset(), requires_grad=False)
         if render:
             env.render()
         
         # loop through episode
         while not done:
             # TODO: Create sample action based on policy
-            # Sample action
-            a = np.argmax(np.dot(individual.reshape(n_actions, 
-                                                    n_observations), 
-                                                    state))
+            # sample action
+            a = np.argmax(model(state)).numpy()
             # query environment
             state, rew, done, _ = env.step(a)
+            state = torch.tensor(state, requires_grad=False)
 
             tot_rew += rew
             if render:

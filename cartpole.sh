@@ -1,15 +1,15 @@
 #!/bin/bash
 
-python train.py \
+python train_network.py \
 -env 'CartPole-v1' \
--exp_reps 3 \
--train_reps 5 \
--eval_reps 200 \
--b 200 \
+-exp_reps 10 \
+-train_reps 6 \
+-eval_reps 150 \
+-b 150 \
 -r "Discrete" \
 -m "IndividualSigma" \
--pat 3 \
--s "PlusSelection" \
--ps 2 \
--os 10 \
+-pat 5 \
+-s "CommaSelection" \
+-ps 4 \
+-os 28 \
 -v 1
