@@ -1,7 +1,7 @@
 #!/bin/bash
 
 python train_network.py \
--model 0 \
+-model 1 \
 -env 'CartPole-v1' \
 -exp_reps 3 \
 -train_reps 5 \
@@ -14,5 +14,5 @@ python train_network.py \
 -ps 3 \
 -os 21 \
 -plot_name "CartPole-v1 nn 1" \
--plot_optimal 500 \
+-env_threshold 475 \
 -v 0

@@ -67,7 +67,7 @@ def main():
                                 'training' our candidate individuals.")
     parser.add_argument('-plot_name', action='store', type=str,
                         default=None)
-    parser.add_argument('-plot_optimal', action='store',
+    parser.add_argument('-env_threshold', action='store',
                         type=float, default=500,
                         help="Optimum value to set as horizontal line in plot")
     parser.add_argument('-env', action='store', type=str,
@@ -149,7 +149,7 @@ def main():
 
     # save plot if name has been defined
     if args.plot_name != None:
-        save_plot(args.plot_name, args.plot_optimal, np.array(data_for_plots))
+        save_plot(args.plot_name, args.env_threshold, np.array(data_for_plots))
 
     # loop through final evalutation process for our best results
     eval_results = []
@@ -213,7 +213,7 @@ def save_plot(plot_name, optimal_val, data):
     plt.fill_between(np.arange(data.shape[1]),data.min(axis=0), 
                                 data.max(axis=0),alpha=0.2)
     plt.axhline(y=optimal_val, xmin=0, xmax=1, color='r', linestyle='--')
-    plt.xlabel("budget")
+    plt.xlabel("generation")
     plt.ylabel("evaluation")
     plt.title(plot_name)
     plt.savefig('plots/'+plot_name)

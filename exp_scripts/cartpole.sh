@@ -12,6 +12,6 @@ python train.py \
 -s "CommaSelection" \
 -ps 3 \
 -os 21 \
--plot_name "CartPole-v1 naive" \
--plot_optimal 500 \
+-plot_name "CartPole-v1 linear" \
+-env_threshold 475 \
 -v 0
