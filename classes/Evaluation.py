@@ -1,22 +1,27 @@
 import numpy as np
 import torch
 
+from evolutionary_algorithms.classes.Population import Population
+
 
 class RewardMaximizationNN():
-    def __init__(self, env, model, reps=3):
+    def __init__(self, env, model, reps=3, render=False):
         self.env = env
         self.model = model
         self.n_observations = np.sum([dim for dim in env.observation_space.shape]) 
         self.n_actions = env.action_space.n
         self.reps = reps
+        self.render = render
 
-    def __call__(self, population):
+    def __call__(self, population: Population):
         fitnesses = []
         for individual in population.individuals:
             ind_rews = []
             for i in range(self.reps):
                 self.model.update_weights(individual)
                 state = torch.tensor(self.env.reset(), requires_grad=False)
+                if self.render:
+                    self.env.render()
                 rep_rews = 0
                 done = False
                 while not done:
@@ -25,6 +30,8 @@ class RewardMaximizationNN():
                     # query environment
                     state, rew, done, _ = self.env.step(a)
                     state = torch.tensor(state, requires_grad=False)
+                    if self.render:
+                        self.env.render()
                     rep_rews += rew
                 ind_rews.append(rep_rews)
             fitnesses.append(np.mean(ind_rews))

@@ -10,6 +10,7 @@ from evolutionary_algorithms.classes.Mutation import *
 from evolutionary_algorithms.classes.Selection import *
 from classes.Evaluation import *
 from classes.Network import *
+from utilities import *
 
 def main():
     parser = argparse.ArgumentParser()
@@ -70,6 +71,9 @@ def main():
                         help="Defines the model architecture to use.")
     parser.add_argument('-env', action='store', type=str,
                         dest='env', default='CartPole-v1')
+    parser.add_argument('-render_train', action='store_true',
+                        help='use this flag to render the training process \
+                                of the individuals')
     parser.add_argument('-render_eval', action='store_true',
                         help='use this flag to render the evaluation process \
                                 after training our individuals')
@@ -136,7 +140,8 @@ def main():
     else:
         mutation = globals()[args.mutation]()
     selection=globals()[args.selection]()
-    evaluation = RewardMaximizationNN(env, model, reps=10)
+    evaluation = RewardMaximizationNN(env, model, args.train_reps, 
+                                        args.render_train)
 
     # loop through experiment 
     best_results = []
@@ -157,7 +162,7 @@ def main():
         # keep track of results
         best_results.append([best_ind, best_eval])
         data_for_plots.append(all_best_evals)
-        print(f"Rep: {i+1} | best average of {args.train_reps} evaluation reps: {best_eval} | time: {np.round(end_time-start_time, 2)}")
+        print(f"Rep: {i+1} | best average of {args.exp_reps} evaluation reps: {best_eval} | time: {np.round(end_time-start_time, 2)}")
 
     # save plot if name has been defined
     if args.plot_name != None:
@@ -166,67 +171,27 @@ def main():
     # loop through final evalutation process for our best results
     eval_results = []
     for res in best_results:
-        curr_eval = eval(res[0], env, model,
+        model.update_weights(res[0])
+        curr_eval = eval(env, model,
                         args.eval_reps, 
                         render=args.render_eval)
         eval_results.append(curr_eval)
     print("Evaluation results",np.round(eval_results, 2))
     
-    # initialize directory to save results
-    if not os.path.exists('results'):
-        os.makedirs('results')
-
-    # Save best individual in results directory
-    best_ind_idx = np.argmax(eval_results)
-    best_ind = best_results[best_ind_idx][0]
-    np.save('results/'+args.exp_name+'.npy', best_ind)
-
-def eval(individual, env, model, reps, render=False):
-    """ Test evaluation function with repetitions to average results.
-    """
-    model.update_weights(individual)
-    # loop through evaluation repetitions
-    rews = []
-    for _ in range(reps):
-        done = False
-        tot_rew = 0
-        state = torch.tensor(env.reset(), requires_grad=False)
-        if render:
-            env.render()
-        
-        # loop through episode
-        while not done:
-            # TODO: Create sample action based on policy
-            # sample action
-            a = np.argmax(model(state)).numpy()
-            # query environment
-            state, rew, done, _ = env.step(a)
-            state = torch.tensor(state, requires_grad=False)
-
-            tot_rew += rew
-            if render:
-                env.render()
-        rews.append(tot_rew)
-
-    return np.mean(rews)
-
-def save_plot(plot_name, optimal_val, data):
-    """ Save plot of the performance of the algorithm
-        for current evaluation function.
-    """
-    # create directory for plots and save plot
-    if not os.path.exists('plots'):
-        os.makedirs('plots')
-
-    plt.clf() # clear past figures
-    plt.plot(data.mean(axis=0), label=plot_name)
-    plt.fill_between(np.arange(data.shape[1]),data.min(axis=0), 
-                                data.max(axis=0),alpha=0.2)
-    plt.axhline(y=optimal_val, xmin=0, xmax=1, color='r', linestyle='--')
-    plt.xlabel("generation")
-    plt.ylabel("evaluation")
-    plt.title(plot_name)
-    plt.savefig('plots/'+plot_name)
+    # if saving is enabled
+    if args.exp_name != None:
+    # initialize directory and save results
+        if not os.path.exists('model_weights'):
+            os.makedirs('model_weights')
+        # get the best individual
+        best_ind_idx = np.argmax(eval_results)
+        best_ind = best_results[best_ind_idx][0]
+        # update model weights to match best inidividual
+        model.update_weights(best_ind)
+        # Save best individual as model weights
+        torch.save(model.state_dict(), 'model_weights/'+args.exp_name)
+        # Also save it as a numpy array
+        np.save('model_weights/'+args.exp_name+'.npy', best_ind)
 
 if __name__ == "__main__":
     main()

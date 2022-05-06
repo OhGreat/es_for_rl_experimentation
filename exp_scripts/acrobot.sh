@@ -1,7 +1,7 @@
 #!/bin/bash
 
 python train.py \
--env 'Acrobot-v1' \
+-env "Acrobot-v1" \
 -exp_reps 5 \
 -train_reps 5 \
 -eval_reps 150 \
