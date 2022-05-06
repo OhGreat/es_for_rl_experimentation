@@ -8,8 +8,6 @@ class RewardMaximizationNN():
     def __init__(self, env, model, reps=3, render=False):
         self.env = env
         self.model = model
-        self.n_observations = np.sum([dim for dim in env.observation_space.shape]) 
-        self.n_actions = env.action_space.n
         self.reps = reps
         self.render = render
 
@@ -26,7 +24,12 @@ class RewardMaximizationNN():
                 done = False
                 while not done:
                     # sample action
-                    a = np.argmax(self.model(state)).numpy()
+                    if self.env.action_space.__class__.__name__ == "Discrete":
+                        a = np.argmax(self.model(state).numpy())
+                    elif self.env.action_space.__class__.__name__ == "Box":
+                        a = self.model(state).numpy()
+                    else:
+                        exit(f"{self.env.action_space.__class__.__name__} action space not yet implemented")
                     # query environment
                     state, rew, done, _ = self.env.step(a)
                     state = torch.tensor(state, requires_grad=False)

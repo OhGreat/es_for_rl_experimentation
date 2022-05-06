@@ -39,8 +39,14 @@ def main():
 
 
     # environment specific parameters
-    n_observations = np.sum([dim for dim in env.observation_space.shape]) 
-    n_actions = env.action_space.n
+    n_observations = np.sum([dim for dim in env.observation_space.shape])
+    if env.action_space.__class__.__name__ == "Discrete":
+        n_actions = env.action_space.n
+    elif env.action_space.__class__.__name__ == "Box":
+        n_actions = sum(env.action_space._shape)
+    else:
+        exit(f"{env.action_space.__class__.__name__} action space not yet implemented")
+
 
     # create an instance of the model
     if args.model == 0:

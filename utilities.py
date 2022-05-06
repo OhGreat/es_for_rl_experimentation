@@ -19,7 +19,12 @@ def eval(env, model, reps, render=False):
         while not done:
             # TODO: Create sample action based on policy
             # sample action
-            a = np.argmax(model(state)).numpy()
+            if env.action_space.__class__.__name__ == "Discrete":
+                a = np.argmax(model(state)).numpy()
+            elif env.action_space.__class__.__name__ == "Box":
+                a = model(state).numpy()
+            else:
+                exit(f"{env.action_space.__class__.__name__} action space not yet implemented")
             # query environment
             state, rew, done, _ = env.step(a)
             state = torch.tensor(state, requires_grad=False)
