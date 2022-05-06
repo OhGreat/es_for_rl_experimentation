@@ -1,12 +1,14 @@
 import os
 import gym
+import time
 import argparse
 import numpy as np
+import matplotlib.pyplot as plt
 from evolutionary_algorithms.classes.EA import EA
 from evolutionary_algorithms.classes.Recombination import *
 from evolutionary_algorithms.classes.Mutation import *
 from evolutionary_algorithms.classes.Selection import *
-from Evaluation import RewardMaximization
+from classes.Evaluation import RewardMaximization
 
 def main():
     parser = argparse.ArgumentParser()
@@ -63,6 +65,11 @@ def main():
                         default=100,
                         help="Defines the number of evaluation repetitions to run after \
                                 'training' our candidate individuals.")
+    parser.add_argument('-plot_name', action='store', type=str,
+                        default=None)
+    parser.add_argument('-plot_optimal', action='store',
+                        type=float, default=500,
+                        help="Optimum value to set as horizontal line in plot")
     parser.add_argument('-env', action='store', type=str,
                         dest='env', default='CartPole-v1')
     parser.add_argument('-render_eval', action='store_true',
@@ -121,7 +128,8 @@ def main():
 
     # loop through experiment 
     best_results = []
-    for _ in range(args.exp_reps):
+    data_for_plots = []
+    for i in range(args.exp_reps):
         # define new ea istance
         ea = EA(minimize=minimize, budget=budget, patience=patience, 
         parents_size=parents_size, offspring_size=offspring_size,
@@ -129,9 +137,19 @@ def main():
         mutation=mutation, selection=selection, evaluation=evaluation,
         verbose=args.verbose)
 
-        # run the ea and append results
-        best_ind, best_eval = ea.run()
+        # run the ea
+        start_time = time.time()
+        best_ind, best_eval, all_best_evals = ea.run()
+        end_time = time.time()
+
+        # keep track of results
         best_results.append([best_ind, best_eval])
+        data_for_plots.append(all_best_evals)
+        print(f"Rep: {i+1} | best average of {args.train_reps} evaluation reps: {best_eval} | time: {np.round(end_time-start_time, 2)}")
+
+    # save plot if name has been defined
+    if args.plot_name != None:
+        save_plot(args.plot_name, args.plot_optimal, np.array(data_for_plots))
 
     # loop through final evalutation process for our best results
     eval_results = []
@@ -180,6 +198,25 @@ def eval(individual, env, reps, render=False):
         rews.append(tot_rew)
 
     return np.mean(rews)
+
+
+def save_plot(plot_name, optimal_val, data):
+    """ Save plot of the performance of the algorithm
+        for current evaluation function.
+    """
+    # create directory for plots and save plot
+    if not os.path.exists('plots'):
+        os.makedirs('plots')
+
+    plt.clf() # clear past figures
+    plt.plot(data.mean(axis=0), label=plot_name)
+    plt.fill_between(np.arange(data.shape[1]),data.min(axis=0), 
+                                data.max(axis=0),alpha=0.2)
+    plt.axhline(y=optimal_val, xmin=0, xmax=1, color='r', linestyle='--')
+    plt.xlabel("budget")
+    plt.ylabel("evaluation")
+    plt.title(plot_name)
+    plt.savefig('plots/'+plot_name)
 
 
 

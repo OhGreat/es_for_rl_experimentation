@@ -5,11 +5,12 @@ python train_network.py \
 -exp_reps 3 \
 -train_reps 5 \
 -eval_reps 150 \
--b 200 \
+-b 300 \
 -r "Discrete" \
 -m "IndividualSigma" \
 -pat 40 \
 -s "CommaSelection" \
--ps 2 \
--os 12 \
--v 1
+-ps 3 \
+-os 21 \
+-plot_name "Acrobot-v1 nn" \
+-v 0

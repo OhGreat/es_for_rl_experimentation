@@ -10,7 +10,6 @@ class RewardMaximizationNN():
         self.n_actions = env.action_space.n
         self.reps = reps
 
-
     def __call__(self, population):
         fitnesses = []
         for individual in population.individuals:
@@ -30,6 +29,7 @@ class RewardMaximizationNN():
                 ind_rews.append(rep_rews)
             fitnesses.append(np.mean(ind_rews))
         population.fitnesses = np.array(fitnesses)
+
 
 class RewardMaximization():
     def __init__(self, env, reps=3):
