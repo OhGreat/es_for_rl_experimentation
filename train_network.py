@@ -166,7 +166,7 @@ def main():
         # keep track of results
         best_results.append([best_ind, best_eval])
         data_for_plots.append(all_best_evals)
-        print(f"Rep: {i+1} | best average of {args.exp_reps} evaluation reps: {best_eval} | time: {np.round(end_time-start_time, 2)}")
+        print(f"Rep: {i+1} | average for {args.train_reps} evals: {best_eval} | time: {np.round(end_time-start_time, 2)}")
 
     # save plot if name has been defined
     if args.plot_name != None:
