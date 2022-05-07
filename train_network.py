@@ -117,6 +117,8 @@ def main():
         model = NN_regression_1(n_observations, 4, 4, n_actions).to("cpu")
     elif args.model == 2:
         model = NN_regression_2(n_observations, 4, 4, n_actions).to("cpu")
+    elif args.model == 3:
+        model = NN_regression_3(n_observations, 4, 4, n_actions).to("cpu")
 
     # define es individual size
     individual_size = model.total_params
