@@ -10,10 +10,10 @@ python train_network.py \
 -b 350 \
 -r "Discrete" \
 -m "IndividualSigma" \
--pat 40 \
+-pat 10 \
 -s "CommaSelection" \
 -ps 3 \
 -os 21 \
 -plot_name "Pendulum nn 0" \
 -env_threshold -16.2736044 \
--v 0
+-v 2

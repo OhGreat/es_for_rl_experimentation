@@ -5,14 +5,14 @@ python train_network.py \
 -model 3 \
 -env 'LunarLander-v2' \
 -exp_reps 3 \
--train_reps 5 \
+-train_reps 8 \
 -eval_reps 150 \
--b 2000 \
--r "Intermediate" \
+-b 3000 \
+-r "Discrete" \
 -m "IndividualSigma" \
--pat 20 \
+-pat 10 \
 -s "CommaSelection" \
--ps 3 -os 21 \
+-ps 3 -os 18 \
 -plot_name "LunarLander-v2 nn 3" \
 -env_threshold 200 \
 -v 2

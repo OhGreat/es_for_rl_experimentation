@@ -13,15 +13,14 @@ def main():
                         help="Defines the model architecture to use.")
     parser.add_argument('-model_weights', action='store',
                         type=str, default='test_experiment',
-                        help="Defines the name of the experiment.")
+                        help="path of the model weights to load for the evaluation.")
     parser.add_argument('-env', action='store', type=str,
                         dest='env', default='CartPole-v1')
     parser.add_argument('-eval_reps', action='store',
                         type=int, default=100,
-                        help="Number of times to evaluate our individual.")
+                        help="number of times to evaluate our individual.")
     parser.add_argument('-render_eval', action='store_true',
-                        help='use this flag to render the evaluation process \
-                                after training our individuals')
+                        help='use this flag to render the evaluation process')
     parser.add_argument('-virtual_display', action='store_true',
                         help='needed for headless servers when using render')
     args = parser.parse_args()
@@ -54,7 +53,11 @@ def main():
     elif args.model == 1:
         model = NN_regression_1(n_observations, 4, 4, n_actions).to("cpu")
     elif args.model == 2:
-        model = NN_regression_2(n_observations, 4, 4, n_actions).to("cpu")\
+        model = NN_regression_2(n_observations, 4, 4, n_actions).to("cpu")
+    elif args.model == 3:
+        model = NN_regression_3(n_observations, 4, 4, n_actions).to("cpu")
+    else:
+        exit("Choose a valid model")
 
     # load weights
     model.load_state_dict(torch.load(args.model_weights))
