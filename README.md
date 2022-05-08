@@ -5,7 +5,7 @@ This repository is based on the <a href="https://github.com/OhGreat/evolutionary
 <p float="left">
   <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/cartpole_c.gif" width="320" />
   <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/lunar_lander_c.gif" width="320" /> 
-  <img src="/img3.png" width="100" />
+  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/acrobot_c.gif" width="320" />
 </p>
 
 

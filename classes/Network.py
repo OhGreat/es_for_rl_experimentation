@@ -72,6 +72,8 @@ class NN_regression_3(NN_base):
         super(NN_regression_3, self).__init__()
 
         self.layers = nn.Sequential(
-            nn.Linear(input_size, output_size),
+            nn.Linear(input_size, input_neurons),
+            nn.Tanh(),
+            nn.Linear(input_neurons, output_size),
         )
         self.total_params = sum(p.numel() for p in self.parameters())
