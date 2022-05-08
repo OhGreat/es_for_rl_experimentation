@@ -1,10 +1,10 @@
-# Experimentation of evolutionary algorithms for Reinforcement learning
+# Evolutionary algorithms for reinforcement learning
 
-This repository is based on the <a href="https://github.com/OhGreat/evolutionary_algorithms">evolutionary algorithms</a> repository. It extends the framework by applying evolutionary strategies to train network agents that can solve OpenAI's gym environments. All environments available in `Classic Control` and `Box2D` have been tested and models are trainable with the EA available. The following gifs are examples of agents trained with various configurations of this framework:
+This repository is based on the <a href="https://github.com/OhGreat/evolutionary_algorithms">evolutionary algorithms</a> repository. It extends the framework by applying evolutionary strategies to train network agents that can solve OpenAI's gym environments. All environments available in `Classic Control`, together with some from `Box2D` have been tested and work with the available implementation. The following gifs are examples of agents trained with various configurations of this framework:
 
 <p float="left">
-  <img src="https://github.com/OhGreat/es_for_rl_experimentation/readme_aux/lunar_lander_c.gif" width="350" />
-  <img src="https://github.com/OhGreat/es_for_rl_experimentation/readme_aux/cartpole_c.gif" width="100" /> 
+  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/cartpole_c.gif" width="320" />
+  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/lunar_lander_c.gif" width="320" /> 
   <img src="/img3.png" width="100" />
 </p>
 
@@ -15,7 +15,7 @@ In order to use this repository, a `Python 3` environment is required, with the 
 
 ## Usage
 
-The framework has two main uses, training and evaluating. How to use the framework for each task is explained in detail in the following subsections.
+The framework has two main uses, `training` and `evaluating` configurations. Training consists in using evolutionary algorithms in order to train the weights of the model network used to sample actions. Evaluating consists in letting the agent play with the environment for a set number of repetitions to collect statistics and averege results of our training.  How to use the framework for each task is explained in detail in the following subsections.
 
 ### Training a configuration
 
