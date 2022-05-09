@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python train_network.py \
+python train_model.py \
 -exp_name "acrobot_nn_0" \
 -model 0 \
 -env 'Acrobot-v1' \

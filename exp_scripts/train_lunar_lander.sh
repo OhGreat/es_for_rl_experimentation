@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python train_network.py \
+python train_model.py \
 -exp_name "lunar_lander_nn_3" \
 -model 3 \
 -env 'LunarLander-v2' \

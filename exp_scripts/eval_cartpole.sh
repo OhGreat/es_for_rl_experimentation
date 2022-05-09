@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python eval.py \
+python eval_model.py \
 -model 0 \
 -model_weights "model_weights/cartpole_nn_0" \
 -env "CartPole-v1" \

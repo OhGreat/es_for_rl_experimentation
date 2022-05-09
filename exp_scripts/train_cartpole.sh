@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python train_network.py \
+python train_model.py \
 -exp_name "cartpole_nn_1" \
 -model 1 \
 -env 'CartPole-v1' \
