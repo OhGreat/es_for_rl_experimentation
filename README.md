@@ -17,7 +17,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-The framework has two main uses, `training` and `evaluating` configurations. Training consists in using evolutionary algorithms in order to train the weights of the model network used to sample actions. Evaluating consists in letting the agent play with the environment for a set number of repetitions to collect statistics and averege results of our training.  How to use the framework for each task is explained in detail in the following subsections.
+The framework has two main uses, `training` and `evaluating` configurations. Training consists in using evolutionary algorithms in order to train the weights of the model network used to sample actions. Evaluating consists in letting the agent play with the environment for a specified number of repetitions to collect statistics and averege the results of training. How to use the framework for each task is explained in detail in the following subsections.
 
 ### Training a configuration
 
@@ -74,10 +74,11 @@ chmod +x exp_scripts/<bash_script.sh>
 ```
 
 ## Examples
-The following plots represent the best fitness progression of the population, for some of the environments tested. It is interesting to notice how for a simple environment like Acrobot the algorithm does not struggle to achive adeguate results, with a low deviation in results. However, when we switch to environments with higher dimensional spaces of observations and actions, the EA struggles to achieve acceptable results. 
+The following plots represent the best fitness progression of the population, for some of the environments tested. It is interesting to notice how for a simple environment like Acrobot the algorithm does not struggle to achive adeguate and consistent results. However, when we switch to environments with higher dimensional spaces of observations and actions, the EA struggles to perform the tasks in a satisfactory way. 
 
 <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/example_trainings.png" />
 
 ## Future work
 
 - add environment step count
+- add atari games for experimentation
