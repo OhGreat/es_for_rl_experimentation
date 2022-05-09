@@ -1,6 +1,6 @@
 # Evolutionary algorithms for reinforcement learning
 
-This repository is based on the <a href="https://github.com/OhGreat/evolutionary_algorithms">evolutionary algorithms</a> repository. It extends the framework by applying evolutionary strategies to train network agents that can solve OpenAI's gym environments. All environments available in `Classic Control`, together with some from `Box2D` have been tested and work with the available implementation. The following gifs are examples of agents trained with various configurations of this framework:
+This repository is based on the <a href="https://github.com/OhGreat/evolutionary_algorithms">evolutionary algorithms</a> repository. It extends the framework by applying evolutionary algorithms to train network agents that can solve OpenAI's gym environments. All environments available in `Classic Control`, together with some from `Box2D` have been tested and work with the available implementation. The following gifs are examples of agents trained with various configurations of this framework:
 
 <p float="left">
   <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/cartpole_c.gif" width="32%" />
@@ -10,7 +10,7 @@ This repository is based on the <a href="https://github.com/OhGreat/evolutionary
 
 ## Prerequisites
 
-In order to use this repository, a `Python 3` environment is required, with the packages specified in the `requirements.txt` file, in the main directory, which can be installed with pip by running the following command, from the `main directory`:
+In order to use this repository, a `Python 3` environment is required, with the packages specified in the `requirements.txt` file, in the main directory. To install the requirements with pip, run the following command from the `main directory`:
 ```
 pip install -r requirements.txt
 ```
@@ -42,7 +42,7 @@ a more precise definition on how to use each parameter can be found in the origi
 **Environmental + extra control parameters:**
 - `-exp_name` : defines the name of the experiment.
 - `-model` : defines the model architecture to use. It should be an integer value between 0 and 3. Model configurations can be found in the `Network.py` file  in the `classes` folder. 
-- `-env` : deefines the environment in which to train our agent. Should be passed as the string you would pass when creating a gym environment.
+- `-env` : defines the environment in which to train our agent. Should be passed as the string you would pass to gym when creating an environment.
 - `-render_train` : used to render the training process. Only recommended for debugging purposes.
 - `-render_eval` : used to render the final evaluation process after training the model.
 - `-virtual_display` : needed to run render on headless servers.
