@@ -10,7 +10,10 @@ This repository is based on the <a href="https://github.com/OhGreat/evolutionary
 
 ## Prerequisites
 
-In order to use this repository, a `Python 3` environment is required, with the packages specified in the `requirements.txt` file, in the main directory, which can be installed with pip.  
+In order to use this repository, a `Python 3` environment is required, with the packages specified in the `requirements.txt` file, in the main directory, which can be installed with pip by running the following command, from the `main directory`:
+```
+pip install -r requirements.txt
+```
 
 ## Usage
 
@@ -19,7 +22,8 @@ The framework has two main uses, `training` and `evaluating` configurations. Tra
 ### Training a configuration
 
 The main python file to train networks is the `train_network.py`, in the main directory. Example shell scripts are available in the `exp_scripts` directory. The following arguments can be set when running the training script: 
-- `-exp_name` : defines the name of the experiment.
+
+**Evolutionary Strategy parameters:**
 - `-b` : defines the total amount of evaluations.
 - `-min` : use this flag if the problem is minimization.
 - `-r` : defines the recombination strategy.
@@ -30,12 +34,17 @@ The main python file to train networks is the `train_network.py`, in the main di
 - `-mul` : defines the multiplier for the one fifth success rule.
 - `-pat` : defines the wait time before resetting sigmas.
 - `-exp_reps` : defines the number of experiments to average results.
-- `-train_reps` : defines the number of evaluation repetitions to use during training.
-- `-eval_reps` : defines the number of evaluation simulations to run after 'training' the models.
-- `-model` : defines the model architecture to use.
-- `-env` : deefines the environment in which to train our agent.
+- `-train_reps` : defines the number of evaluation repetitions to use during training. Setting it to three for example means that three simulations of the model playing with the environment will be used to evaluate the fitness of each individual.
+- `-eval_reps` : defines the number of evaluation simulations to run after training the models.
+
+a more precise definition on how to use each parameter can be found in the original EA repository <a href="https://github.com/OhGreat/evolutionary_algorithms">here</a>.
+
+**Environmental + extra control parameters:**
+- `-exp_name` : defines the name of the experiment.
+- `-model` : defines the model architecture to use. It should be an integer value between 0 and 3. Model configurations can be found in the `Network.py` file  in the `classes` folder. 
+- `-env` : deefines the environment in which to train our agent. Should be passed as the string you would pass when creating a gym environment.
 - `-render_train` : used to render the training process. Only recommended for debugging purposes.
-- `-render_eval` : used to render the final evaluation process after training thte model.
+- `-render_eval` : used to render the final evaluation process after training the model.
 - `-virtual_display` : needed to run render on headless servers.
 - `-plot_name` : saves plot of the training when a name for the plot is defined.
 - `-env_threshold` : Optimum value to set as horizontal line in plot.
@@ -64,6 +73,11 @@ chmod +x exp_scripts/<bash_script.sh>
 ./exp_scripts/<bash_script.sh>
 ```
 
+## Examples
+The following plots represent the best fitness progression of the population, for some of the environments tested. It is interesting to notice how for a simple environment like Acrobot the algorithm does not struggle to achive adeguate results, with a low deviation in results. However, when we switch to environments with higher dimensional spaces of observations and actions, the EA struggles to achieve acceptable results. 
+
+<img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/example_trainings.png" />
+
 ## Future work
 
-- add env step count
+- add environment step count
