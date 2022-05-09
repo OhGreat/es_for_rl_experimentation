@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python eval.py \
+python eval_model.py \
 -model 3 \
 -model_weights "model_weights/bipedal_walker_3" \
 -env "BipedalWalker-v3" \
