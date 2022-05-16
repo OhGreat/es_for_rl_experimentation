@@ -37,7 +37,7 @@ The main python file to train networks is the `train_network.py`, in the main di
 - `-train_reps` : defines the number of evaluation repetitions to use during training. Setting it to three for example means that three simulations of the model playing with the environment will be used to evaluate the fitness of each individual.
 - `-eval_reps` : defines the number of evaluation simulations to run after training the models.
 
-a more precise definition on how to use each parameter can be found in the original EA repository <a href="https://github.com/OhGreat/evolutionary_algorithms">here</a>.
+a more precise definition on how to use each parameter of the EA can be found in the original repository <a href="https://github.com/OhGreat/evolutionary_algorithms">here</a>, or in the pip package documentation available <a href="https://pypi.org/project/EA-framework-OhGreat/">here</a>.
 
 **Environmental + extra control parameters:**
 - `-exp_name` : defines the name of the experiment.

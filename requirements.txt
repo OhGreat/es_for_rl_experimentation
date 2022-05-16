@@ -2,3 +2,4 @@ gym==0.23.1
 matplotlib==3.5.1
 numpy==1.21.5
 torch==1.11.0
+EA-framework-OhGreat >= 0.2.7

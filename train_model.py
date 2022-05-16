@@ -4,10 +4,10 @@ import time
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
-from evolutionary_algorithms.classes.EA import EA
-from evolutionary_algorithms.classes.Recombination import *
-from evolutionary_algorithms.classes.Mutation import *
-from evolutionary_algorithms.classes.Selection import *
+from EA_components.EA import EA
+from EA_components.Recombination import *
+from EA_components.Mutation import *
+from EA_components.Selection import *
 from classes.Evaluation import *
 from classes.Network import *
 from utilities import *
