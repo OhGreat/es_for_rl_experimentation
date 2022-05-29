@@ -2,11 +2,8 @@
 
 This repository is based on the <a href="https://github.com/OhGreat/evolutionary_algorithms">evolutionary algorithms</a> repository. It extends the framework by applying evolutionary algorithms to train network agents that can solve OpenAI's gym environments. All environments available in `Classic Control`, together with some from `Box2D` have been tested and work with the available implementation. The following gifs are examples of agents trained with various configurations of this framework:
 
-<p float="left" width=100%>
-  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/cartpole_c.gif" />
-  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/lunar_lander_c.gif" /> 
-  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/walker_c.gif" />
-</p>
+
+ <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/combined.gif" width="100%" />
 
 ## Prerequisites
 
