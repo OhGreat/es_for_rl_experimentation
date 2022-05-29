@@ -2,16 +2,16 @@
 
 This repository is based on the <a href="https://github.com/OhGreat/evolutionary_algorithms">evolutionary algorithms</a> repository. It extends the framework by applying evolutionary algorithms to train network agents that can solve OpenAI's gym environments. All environments available in `Classic Control`, together with some from `Box2D` have been tested and work with the available implementation. The following gifs are examples of agents trained with various configurations of this framework:
 
-<p float="left">
-  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/cartpole_c.gif" width="32%" />
-  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/lunar_lander_c.gif" width="32%" /> 
-  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/walker_c.gif" width="32%" />
+<p float="left" width=100%>
+  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/cartpole_c.gif" />
+  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/lunar_lander_c.gif" /> 
+  <img src="https://github.com/OhGreat/es_for_rl_experimentation/blob/main/readme_aux/walker_c.gif" />
 </p>
 
 ## Prerequisites
 
 In order to use this repository, a `Python 3` environment is required, with the packages specified in the `requirements.txt` file, in the main directory. To install the requirements with pip, run the following command from the `main directory`:
-```
+```python
 pip install -r requirements.txt
 ```
 
