@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 
-from evolutionary_algorithms.classes.Population import Population
+from EA_components import Population
 
 
 class RewardMaximizationNN():

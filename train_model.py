@@ -164,13 +164,13 @@ def main():
 
         # run the ea
         start_time = time.time()
-        best_ind, best_eval, all_best_evals = ea.run()
+        best_ind, all_best_evals = ea.run()
         end_time = time.time()
 
         # keep track of results
-        best_results.append([best_ind, best_eval])
+        best_results.append([best_ind, max(all_best_evals)])
         data_for_plots.append(all_best_evals)
-        print(f"Rep: {i+1} | average for {args.train_reps} evals: {best_eval} | time: {np.round(end_time-start_time, 2)}")
+        print(f"Rep: {i+1} | average for {args.train_reps} evals: {max(all_best_evals)} | time: {np.round(end_time-start_time, 2)}")
 
     # save plot if name has been defined
     if args.plot_name != None:
