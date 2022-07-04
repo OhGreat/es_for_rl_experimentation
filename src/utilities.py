@@ -53,3 +53,10 @@ def save_plot(plot_name, optimal_val, data):
     plt.ylabel("evaluation")
     plt.title(plot_name)
     plt.savefig('plots/'+plot_name)
+
+def argmax(x):
+        ''' Variant of np.argmax with random tie breaking '''
+        try:
+            return np.array(np.random.choice(np.where(x == np.max(x))[0]), dtype=np.float32)
+        except:
+            return np.argmax(x)

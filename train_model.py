@@ -4,13 +4,13 @@ import time
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
-from EA_components.EA import EA
-from EA_components.Recombination import *
-from EA_components.Mutation import *
-from EA_components.Selection import *
-from classes.Evaluation import *
-from classes.Network import *
-from utilities import *
+from EA_components_OhGreat.EA import EA
+from EA_components_OhGreat.Recombination import *
+from EA_components_OhGreat.Mutation import *
+from EA_components_OhGreat.Selection import *
+from src.Evaluation import *
+from src.Network import *
+from src.utilities import *
 
 def main():
     parser = argparse.ArgumentParser()

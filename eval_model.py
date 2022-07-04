@@ -2,8 +2,8 @@ import numpy as np
 import argparse
 import gym
 import os
-from classes.Network import *
-from utilities import *
+from src.Network import *
+from src.utilities import *
 
 def main():
     parser = argparse.ArgumentParser()

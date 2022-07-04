@@ -1,7 +1,7 @@
 import numpy as np
 import torch
-
-from EA_components import Population
+from src.utilities import argmax
+from EA_components_OhGreat import Population
 
 
 class RewardMaximizationNN():
@@ -25,9 +25,11 @@ class RewardMaximizationNN():
                 while not done:
                     # sample action
                     if self.env.action_space.__class__.__name__ == "Discrete":
-                        a = np.argmax(self.model(state).numpy())
+                        a = int(argmax(self.model(state).numpy()))
                     elif self.env.action_space.__class__.__name__ == "Box":
                         a = self.model(state).numpy()
+                        # print(a)
+                        # exit()
                     else:
                         exit(f"{self.env.action_space.__class__.__name__} action space not yet implemented")
                     # query environment
